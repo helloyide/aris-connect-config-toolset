@@ -1,0 +1,88 @@
+<idea-plugin version="2">
+    <id>com.piapox.idea.acct</id>
+    <name>ARIS Connect Config ToolSet</name>
+    <version>0.1</version>
+    <vendor email="Yide.Zou@softwareag.com" url="">Yide Zou</vendor>
+
+    <description><![CDATA[
+      Tools for ARIS Connect XML configurations
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <h3>0.1</h3>
+        <ul>
+            <li>open instance configuration. Warn if using default instance config, create new instance config which is copied from the default one.</li>
+            <li>reference view auto completion, only show internal view and also check global config</li>
+            <li>ctrl click on view ref, navigate to related file.</li>
+            <li>refactor rename element instance id, wire and instance configuration should be updated. Not work for group</li>
+            <li>show document about component and its slot</li>
+            <li>gray wire which source or target has no related instance. And user can remove them by ctrl+enter</li>
+            <li>show icon beside element which has wire, click on the icon navigate to the wire. Not work for group</li>
+            <li>ctrl click on wire source or target, navigate to the element. Not work for group.</li>
+            <li>auto complete for component slot name, component type, wire source/target instance, layout properties names</li>
+            <li>show warn if filename is different than view instance name and auto fix for it</li>
+            <li>invisible free layout children should have width height 1, auto fix for adding these properties</li>
+            <li>view hierarchy, show instance id and type in node. Can search by instance and type with Ctrl+F12</li>
+        <ul>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <!-- IDEA 2016.3 introduced the Parameter hints feature -->
+    <idea-version since-build="163"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+
+        <dom.fileDescription implementation="com.piapox.idea.acct.view.ViewConfigFileDescription"/>
+
+
+        <annotator language="XML"
+                   implementationClass="com.piapox.idea.acct.view.annotator.ViewConfigAnnotator"/>
+
+        <codeInsight.lineMarkerProvider language="XML"
+                                        implementationClass="com.piapox.idea.acct.view.lineMarker.WireLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="XML"
+                                        implementationClass="com.piapox.idea.acct.view.lineMarker.ComponentLineMarkerProvider"/>
+
+        <completion.contributor language="XML" order="first, before xml"
+                                implementationClass="com.piapox.idea.acct.view.completion.WireCompletionContributor"/>
+        <completion.contributor language="XML" order="first, before xml"
+                                implementationClass="com.piapox.idea.acct.view.completion.ComponentTypeCompletionContributor"/>
+        <completion.contributor language="XML" order="first, before xml"
+                                implementationClass="com.piapox.idea.acct.view.completion.ViewRefCompletionContributor"/>
+        <completion.contributor language="XML" order="first, before xml"
+                                implementationClass="com.piapox.idea.acct.view.completion.PropertyNameCompletionContributor"/>
+
+
+        <psi.referenceContributor language="XML"
+                                  implementation="com.piapox.idea.acct.view.reference.WireReferenceContributor"/>
+        <psi.referenceContributor language="XML"
+                                  implementation="com.piapox.idea.acct.view.reference.ViewReferenceContributor"/>
+
+        <lang.psiStructureViewFactory language="XML" order="first"
+                                      implementationClass="com.piapox.idea.acct.view.structureView.ViewConfigStructureViewFactory"/>
+
+        <lang.documentationProvider language="XML"
+                                    implementationClass="com.piapox.idea.acct.view.documentation.ViewDocumentationProvider"/>
+
+        <renameHandler
+                implementation="com.piapox.idea.acct.view.rename.ViewRenameHandler"/>
+
+
+    </extensions>
+
+    <actions>
+        <!--<group id="Test1.SampleMenu" text="_Sample Menu" description="Sample menu">-->
+            <!--<add-to-group group-id="MainMenu" anchor="last"/>-->
+            <!--<action id="Test1.TestAction1" class="com.piapox.idea.acct.TestAction" text="Test _Action 1"-->
+                    <!--description="This is a test action"/>-->
+        <!--</group>-->
+    </actions>
+
+</idea-plugin>
