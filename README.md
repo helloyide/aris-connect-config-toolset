@@ -1,5 +1,5 @@
 ARIS Connect Config Toolset
--------------
+===================
 ARIS Connect Config Toolset is an IntelliJ plugin for creating or editing ARIS Connect XML configurations. It helps to reduce errors and accelerate the customization process. It's still under developing, the current version focuses on the view configuration, it will support more configuration in the future.
 
 Problem
