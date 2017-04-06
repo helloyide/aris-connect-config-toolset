@@ -23,3 +23,7 @@ Here is a short demo about the auto completion feature, it shows how easy to cre
 Features
 -------------
 Follow features are already implemented:
+### Auto completion
+The tool understands your configuration. Base on the context, it shows suggestion about values which make sense. It encourage you to choose instead of typing, this reduces typo and saves you time to check the documentation.
+
+In this example the tool knows you want to type an internal view name, so it search the current config-set and the global config-set, suggest the available internal view names. You don't need to open the config folder manually and open each file to check if which one is an internal view. All are done automatically for you, just choose one you need.
