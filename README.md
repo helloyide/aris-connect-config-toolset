@@ -18,7 +18,7 @@ The goal of this toolset is to help configuration developers to reduce the error
 Demo
 -------------
 Here is a short demo about the auto completion feature, it shows how easy to create a new home view:
-![Create a new home view in 2 minutes](https://lh3.googleusercontent.com/-MpUQVtazuoM/WNfotdy10zI/AAAAAAAAABA/5I8N9dEvlmgG-2FJJyR5U1cOv365LXBDQCJoC/w530-h200-rw/home_view_in_2min.gif)
+![Create a new home view in 2 minutes](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/demo.gif)
 
 Features
 -------------
