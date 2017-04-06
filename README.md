@@ -19,6 +19,15 @@ Licesense
 -------------
 This plugin works with both IntelliJ Community and Ultimate version (2016.3 and above). IntelliJ Community has Apache 2.0 licesense, so does this plugin, which means it's open source and free to use.
 
+Install
+-------------
+Download the jar file from the release folder, install it in IntelliJ:
+- Ppen menu File->Settings...
+- On the left side choose Plugins, then click the button "Install plugin from disk..."
+- Choose the aris-connect-config-toolset.jar file which you just downloaded and click OK. 
+- You can see the new plugin is selected in the list and its description shows on the right side. Now you need to restart the IntelliJ. 
+- In the future when you download a new version, just repeat these steps to update it.
+
 Feature Details
 -------------
 Follow features are already implemented:
@@ -74,4 +83,3 @@ The tools has build-in documentation. Just move the cursor to the component and 
 
 Currently it only works for component and only contains a short description and which slot the component supports. 
 ![documentation demo](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/component_document.gif)
-
