@@ -27,12 +27,28 @@ public class FileHelper {
     @Nullable
     public static String getConfigTypeName(VirtualFile virtualFile) {
         if (virtualFile == null) return null;
-
         String canonicalPath = virtualFile.getCanonicalPath();
-        if (canonicalPath != null) {
-            String[] tokens = canonicalPath.split("/");
-            if (tokens.length >= 3) {
-                return tokens[tokens.length - 2];
+        return getConfigTypeName(canonicalPath);
+    }
+
+    /**
+     * For example
+     * "C:/SoftwareAG/ARIS10.0/server/bin/work/work_copernicus_s/base/webapps/ROOT/WEB-INF/config/classic/views/home.xml"
+     * returns "views"
+     */
+    @Nullable
+    public static String getConfigTypeName(String filePath) {
+        if (filePath != null) {
+            String[] tokens = filePath.split("/");
+            for (int i = 0; i < tokens.length; i++) {
+                if (tokens[i].equals("WEB-INF")) {
+                    if (i + 1 < tokens.length && tokens[i + 1].equals("config")) {
+                        if (i + 3 < tokens.length) {
+                            return tokens[i + 3];
+                        }
+                    }
+                    return null;
+                }
             }
         }
         return null;
@@ -46,19 +62,24 @@ public class FileHelper {
     @Nullable
     public static String getConfigSetName(VirtualFile virtualFile) {
         if (virtualFile == null) return null;
-
         String canonicalPath = virtualFile.getCanonicalPath();
-        if (canonicalPath != null) {
-            String[] tokens = canonicalPath.split("/");
+        return getConfigSetName(canonicalPath);
+    }
+
+    /**
+     * For example
+     * "C:/SoftwareAG/ARIS10.0/server/bin/work/work_copernicus_s/base/webapps/ROOT/WEB-INF/config/classic/views/home.xml"
+     * returns "classic"
+     */
+    @Nullable
+    public static String getConfigSetName(String filePath) {
+        if (filePath != null) {
+            String[] tokens = filePath.split("/");
             for (int i = 0; i < tokens.length; i++) {
-                String token = tokens[i];
-                if (token.equals("WEB-INF")) {
-                    if (i + 1 < tokens.length) {
-                        String nextToken = tokens[i + 1];
-                        if (nextToken.equals("config")) {
-                            if (i + 2 < tokens.length) {
-                                return tokens[i + 2];
-                            }
+                if (tokens[i].equals("WEB-INF")) {
+                    if (i + 1 < tokens.length && tokens[i + 1].equals("config")) {
+                        if (i + 2 < tokens.length) {
+                            return tokens[i + 2];
                         }
                     }
                     return null;
@@ -158,6 +179,9 @@ public class FileHelper {
         collection.add(child);
     }
 
+    /**
+     * All modifications to physical PSI, VFS and project model should be done in write actions.
+     */
     public static void runWriteAction(Runnable runnable, Project project, VirtualFile... virtualFile) {
         ApplicationManager.getApplication().runWriteAction(() -> {
             ReadonlyStatusHandler.OperationStatus status = ReadonlyStatusHandler.getInstance(project).ensureFilesWritable(virtualFile);
@@ -167,6 +191,9 @@ public class FileHelper {
         });
     }
 
+    /**
+     * All modifications to documents should be done in commands.
+     */
     public static void runWriteCommand(Runnable runnable, Project project, VirtualFile... virtualFile) {
         WriteCommandAction.runWriteCommandAction(project, () -> {
             ReadonlyStatusHandler.OperationStatus status = ReadonlyStatusHandler.getInstance(project).ensureFilesWritable(virtualFile);

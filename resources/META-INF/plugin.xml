@@ -78,11 +78,12 @@
     </extensions>
 
     <actions>
-        <!--<group id="Test1.SampleMenu" text="_Sample Menu" description="Sample menu">-->
-            <!--<add-to-group group-id="MainMenu" anchor="last"/>-->
-            <!--<action id="Test1.TestAction1" class="com.piapox.idea.acct.TestAction" text="Test _Action 1"-->
-                    <!--description="This is a test action"/>-->
-        <!--</group>-->
+        <action id="com.piapox.idea.acct.action.autoReload.AutoReloadConfigAction" class="com.piapox.idea.acct.action.autoReload.AutoReloadConfigAction"
+                icon="Icons.RELOAD_DISABLED"
+                text="Auto Reload Configurations"
+                description="Detect configuration changes and reload it automatically.">
+            <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
+        </action>
     </actions>
 
 </idea-plugin>

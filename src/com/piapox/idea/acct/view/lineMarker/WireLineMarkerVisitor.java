@@ -8,8 +8,8 @@ import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomElementVisitor;
-import com.piapox.idea.acct.icons.Icons;
 import com.piapox.idea.acct.view.element.*;
+import icons.Icons;
 import org.apache.commons.lang.StringUtils;
 
 import javax.swing.*;

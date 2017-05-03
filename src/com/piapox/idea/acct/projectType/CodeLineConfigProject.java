@@ -15,7 +15,7 @@ import java.nio.file.Paths;
  */
 public class CodeLineConfigProject implements ConfigProject {
 
-    private static final String MODULE_NAME_COP = "copernicus-portal-config";
+    private static final String MODULE_NAME_COP = "portal-config";
     private static final String MODULE_NAME_ABS = "cop-pub-config";
     private Project project;
 

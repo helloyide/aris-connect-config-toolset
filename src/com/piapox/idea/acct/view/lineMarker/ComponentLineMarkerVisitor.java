@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.util.xml.DomElement;
 import com.intellij.util.xml.DomElementVisitor;
-import com.piapox.idea.acct.icons.Icons;
 import com.piapox.idea.acct.view.element.Component;
 import com.piapox.idea.acct.view.element.LayoutComponent;
 import com.piapox.idea.acct.view.element.ViewConfigElement;
+import icons.Icons;
 
 import java.util.ArrayList;
 import java.util.Collection;

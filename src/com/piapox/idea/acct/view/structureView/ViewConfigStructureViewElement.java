@@ -5,8 +5,8 @@ import com.intellij.ide.util.treeView.smartTree.TreeElement;
 import com.intellij.navigation.ItemPresentation;
 import com.intellij.navigation.NavigationItem;
 import com.intellij.psi.xml.XmlTag;
-import com.piapox.idea.acct.icons.Icons;
 import com.piapox.idea.acct.view.element.*;
+import icons.Icons;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
