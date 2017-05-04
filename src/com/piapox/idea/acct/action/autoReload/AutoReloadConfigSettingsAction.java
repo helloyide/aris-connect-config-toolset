@@ -9,7 +9,7 @@ public class AutoReloadConfigSettingsAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        AutoReloadSettingsDialog diag = new AutoReloadSettingsDialog();
+        AutoReloadSettingsDialog diag = new AutoReloadSettingsDialog(e.getProject());
 
         diag.setTitle("AutoReload Settings");
         diag.setSize(500, 255);

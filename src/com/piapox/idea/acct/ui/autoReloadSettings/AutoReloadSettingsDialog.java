@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class AutoReloadSettingsDialog extends JDialog {
-    private final Project project = null;
+    private final Project project;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -23,8 +23,8 @@ public class AutoReloadSettingsDialog extends JDialog {
     private JButton btnCOPTargetPath;
     private JButton btnLiveLoadTriggerFile;
 
-    public AutoReloadSettingsDialog() {
-//        this.project = project;
+    public AutoReloadSettingsDialog(Project project) {
+        this.project = project;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -56,18 +56,17 @@ public class AutoReloadSettingsDialog extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        if (project != null) {
-            btnLiveLoadTriggerFile.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    FileChooserDescriptor fileDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor((String) null);
-                    VirtualFile selectedFile = FileChooser.chooseFile(fileDescriptor, project, null);
-                    if (selectedFile != null) {
-                        txtLiveLoadTriggerFile.setText(selectedFile.getCanonicalPath());
-                    }
+
+        btnLiveLoadTriggerFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FileChooserDescriptor fileDescriptor = FileChooserDescriptorFactory.createSingleFileDescriptor((String) null);
+                VirtualFile selectedFile = FileChooser.chooseFile(fileDescriptor, project, null);
+                if (selectedFile != null) {
+                    txtLiveLoadTriggerFile.setText(selectedFile.getCanonicalPath());
                 }
-            });
-        }
+            }
+        });
     }
 
     private void onOK() {
@@ -80,7 +79,15 @@ public class AutoReloadSettingsDialog extends JDialog {
         dispose();
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
+    public static void main(String[] args) {
+        AutoReloadSettingsDialog dialog = new AutoReloadSettingsDialog(null);
+        dialog.pack();
+        dialog.setVisible(true);
+        System.exit(0);
     }
+
+    private void createUIComponents() {
+        // place custom component creation code here
+    }
+
 }
