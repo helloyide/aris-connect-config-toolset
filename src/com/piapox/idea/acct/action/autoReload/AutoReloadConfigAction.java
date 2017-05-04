@@ -41,9 +41,6 @@ public class AutoReloadConfigAction extends AnAction {
             }
         }
 
-//        FooTestDialog diag = new FooTestDialog();
-//        diag.setVisible(true);
-
     }
 
 

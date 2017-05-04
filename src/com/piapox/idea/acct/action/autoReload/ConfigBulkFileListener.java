@@ -26,11 +26,10 @@ import java.util.Set;
  */
 public class ConfigBulkFileListener extends BulkFileListener.Adapter {
 
-    // TODO: these two value should be configurable with UI
-    private static final String absConfigTargetPath = "U:/ALL/dev/s/cop/apps/aris/aris/server-complete/target/y-aris-server-complete-99.0.0.0-SNAPSHOT";
-    private static final String copConfigTargetPath = "U:/ALL/dev/s/cop/base/copernicus/server/portal-server/target/portal-server-99.0.0.0-SNAPSHOT";
-    private static final String TRIGGER_FILENAME = "trigger.txt";
-    private static final String TRIGGER_FOLDER_PATH = "U:/liveReloadTrigger/";
+    // TODO: these should be configurable with UI
+    private static final String absTargetPath = "U:/ALL/dev/s/cop/apps/aris/aris/server-complete/target/y-aris-server-complete-99.0.0.0-SNAPSHOT";
+    private static final String copTargetPath = "U:/ALL/dev/s/cop/base/copernicus/server/portal-server/target/portal-server-99.0.0.0-SNAPSHOT";
+    private static final String TRIGGER_FILE_PATH = "U:/liveReloadTrigger/trigger.txt";
 
     private final Project project;
     private final ConfigProject configProject;
@@ -100,20 +99,9 @@ public class ConfigBulkFileListener extends BulkFileListener.Adapter {
 
     private void triggerLiveReload() {
         LocalFileSystem fileSystem = LocalFileSystem.getInstance();
-        VirtualFile triggerFolder = fileSystem.findFileByPath(TRIGGER_FOLDER_PATH);
-        if (triggerFolder == null) return;
 
-        VirtualFile triggerFile = triggerFolder.findChild(TRIGGER_FILENAME);
-        if (triggerFile == null) {
-            // create the file
-            WriteCommandAction.runWriteCommandAction(project, () -> {
-                try {
-                    fileSystem.createChildFile(this, triggerFolder, TRIGGER_FILENAME);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        } else {
+        VirtualFile triggerFile = fileSystem.findFileByPath(TRIGGER_FILE_PATH);
+        if (triggerFile != null) {
             WriteCommandAction.runWriteCommandAction(project, () -> {
                 try {
                     triggerFile.setBinaryContent(longToByteArray(System.currentTimeMillis()));
@@ -160,7 +148,7 @@ public class ConfigBulkFileListener extends BulkFileListener.Adapter {
     private void copySourceToTargetDeployFolder(Set<String> sourceAbsPaths, Set<String> sourceCopPaths) {
         LocalFileSystem fileSystem = LocalFileSystem.getInstance();
         sourceAbsPaths.forEach(sourcePath -> {
-            String targetPath = Paths.get(absConfigTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
+            String targetPath = Paths.get(absTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
             VirtualFile source = fileSystem.findFileByPath(sourcePath);
             VirtualFile target = fileSystem.findFileByPath(targetPath);
             if (source != null && target != null) {
@@ -179,7 +167,7 @@ public class ConfigBulkFileListener extends BulkFileListener.Adapter {
         });
 
         sourceCopPaths.forEach(sourcePath -> {
-            String targetPath = Paths.get(copConfigTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
+            String targetPath = Paths.get(copTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
             VirtualFile source = fileSystem.findFileByPath(sourcePath);
             VirtualFile target = fileSystem.findFileByPath(targetPath);
             if (source != null && target != null) {

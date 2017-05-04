@@ -84,6 +84,10 @@
                 description="Detect configuration changes and reload it automatically.">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
         </action>
+        <action id="com.piapox.idea.acct.action.autoReload.AutoReloadConfigSettingsAction" class="com.piapox.idea.acct.action.autoReload.AutoReloadConfigSettingsAction"
+                text="Auto Reload Config Settings..." description="Settings of the Auto Reload Config feature">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 
 </idea-plugin>
