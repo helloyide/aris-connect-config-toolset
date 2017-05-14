@@ -31,6 +31,19 @@ Download the jar file from the release folder, install it in IntelliJ:
 Feature Details
 -------------
 Follow features are already implemented:
+### Auto reload config
+After you change the XML configuration, in order to see the result, you need to deploy it to server either by copy the files manually or zip them and upload through UI, after that you need to reload the configuration and refresh the page. The whole process takes alot of time if you change configuration often. With the Auto reload config feature this tool can watch your changes, deploy them on server and reload the configurations on the fly, it's much faster.
+
+You can activate auto reload config by clicking on this toolbar button:
+![Auto reload config toolbar button](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/auto_reload_toolbar_button.png)
+
+At first you need to configure its settings:
+![Auto reload config settings menu](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/auto_reload_settings_menu.png)
+![Auto reload config settings](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/auto_reload_settings.png)
+If you are not running ARIS from code line which is only for internal developers, you can ignore the second part "File System" of the settings.
+I suggest you also install LiveReload browser plugin (http://livereload.com/), it will watch file changes on file system and reload the browser automatically. You can set up a file in the last part of the settings above and let liveload watch on that file, each time after configruation reloaded, it will change that file and trigger LiveReload.
+
+
 ### Auto completion
 The tool understands your configuration. Base on the context, it shows suggestion about values which make sense. It encourage you to choose instead of typing, this reduces typo and saves you time to check the documentation.
 
