@@ -13,7 +13,7 @@ Features
 Demo
 -------------
 Here is a short demo about the auto completion feature, it shows how easy to create a new home view:
-![Create a new home view in 2 minutes](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/demo.gif)
+![Create a new home view in 2 minutes](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/demo_with_loop.gif)
 
 Licesense
 -------------
