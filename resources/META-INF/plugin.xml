@@ -29,7 +29,7 @@
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <!-- IDEA 2016.3 introduced the Parameter hints feature -->
-    <idea-version since-build="163"/>
+    <idea-version since-build="162"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
@@ -78,13 +78,13 @@
     </extensions>
 
     <actions>
-        <action id="com.piapox.idea.acct.action.autoReload.AutoReloadConfigAction" class="com.piapox.idea.acct.action.autoReload.AutoReloadConfigAction"
+        <action id="com.piapox.idea.acct.autoReload.action.AutoReloadConfigAction" class="com.piapox.idea.acct.autoReload.action.AutoReloadConfigAction"
                 icon="Icons.RELOAD_DISABLED"
                 text="Auto Reload Configurations"
                 description="Detect configuration changes and reload it automatically.">
             <add-to-group group-id="ToolbarRunGroup" anchor="last"/>
         </action>
-        <action id="com.piapox.idea.acct.action.autoReload.AutoReloadConfigSettingsAction" class="com.piapox.idea.acct.action.autoReload.AutoReloadConfigSettingsAction"
+        <action id="com.piapox.idea.acct.autoReload.action.AutoReloadConfigSettingsAction" class="com.piapox.idea.acct.autoReload.action.AutoReloadConfigSettingsAction"
                 text="Auto Reload Config Settings..." description="Settings of the Auto Reload Config feature">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>

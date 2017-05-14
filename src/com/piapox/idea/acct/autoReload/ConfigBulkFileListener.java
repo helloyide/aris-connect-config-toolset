@@ -1,4 +1,4 @@
-package com.piapox.idea.acct.action.autoReload;
+package com.piapox.idea.acct.autoReload;
 
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -11,7 +11,6 @@ import com.piapox.idea.acct.projectType.CodeLineConfigProject;
 import com.piapox.idea.acct.projectType.ConfigProject;
 import com.piapox.idea.acct.projectType.ConfigProjectFactory;
 import com.piapox.idea.acct.util.FileHelper;
-import com.piapox.idea.acct.util.UiHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -21,20 +20,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.piapox.idea.acct.autoReload.settings.AutoReloadSettingsDAO.loadSettings;
+import static com.piapox.idea.acct.util.UiHelper.alert;
+
 /**
  * Detect config xml file changes in bulk
  */
 public class ConfigBulkFileListener extends BulkFileListener.Adapter {
 
-    // TODO: these should be configurable with UI
-    private static final String absTargetPath = "U:/ALL/dev/s/cop/apps/aris/aris/server-complete/target/y-aris-server-complete-99.0.0.0-SNAPSHOT";
-    private static final String copTargetPath = "U:/ALL/dev/s/cop/base/copernicus/server/portal-server/target/portal-server-99.0.0.0-SNAPSHOT";
-    private static final String TRIGGER_FILE_PATH = "U:/liveReloadTrigger/trigger.txt";
-
     private final Project project;
     private final ConfigProject configProject;
 
-    ConfigBulkFileListener(Project project) {
+    public ConfigBulkFileListener(Project project) {
         this.project = project;
         this.configProject = ConfigProjectFactory.getConfigProject(project);
     }
@@ -56,20 +54,22 @@ public class ConfigBulkFileListener extends BulkFileListener.Adapter {
     }
 
     private void reloadConfigs(Set<String> sourceAbsPaths, Set<String> sourceCopPaths) {
+        ConfigReloader configReloader = new ConfigReloader(loadSettings(project));
+
         if (sourceAbsPaths.size() > 0) {
             ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
                 @Override
                 public void run() {
-                    ConfigReloader.reloadAbsConfig(new ConfigReloader.ConfigReloadedListener() {
+                    configReloader.reloadAbsConfig(new ConfigReloader.ConfigReloadedListener() {
                         @Override
                         public void onSuccess() {
-                            UiHelper.alert("Abs configurations reloaded.");
+                            alert("Abs configurations reloaded.");
                             triggerLiveReload();
                         }
 
                         @Override
                         public void onFailed() {
-                            UiHelper.alert("Abs configurations reload failed.");
+                            alert("Abs configurations reload failed.");
                         }
                     });
                 }
@@ -80,16 +80,16 @@ public class ConfigBulkFileListener extends BulkFileListener.Adapter {
             ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
                 @Override
                 public void run() {
-                    ConfigReloader.reloadCopConfig(new ConfigReloader.ConfigReloadedListener() {
+                    configReloader.reloadCopConfig(new ConfigReloader.ConfigReloadedListener() {
                         @Override
                         public void onSuccess() {
-                            UiHelper.alert("Cop configurations reloaded.");
+                            alert("Cop configurations reloaded.");
                             triggerLiveReload();
                         }
 
                         @Override
                         public void onFailed() {
-                            UiHelper.alert("Cop configurations reload failed.");
+                            alert("Cop configurations reload failed.");
                         }
                     });
                 }
@@ -98,9 +98,11 @@ public class ConfigBulkFileListener extends BulkFileListener.Adapter {
     }
 
     private void triggerLiveReload() {
-        LocalFileSystem fileSystem = LocalFileSystem.getInstance();
+        String triggerFilePath = loadSettings(project).getLiveLoadTriggerFile();
+        if (isNullOrEmpty(triggerFilePath)) return;
 
-        VirtualFile triggerFile = fileSystem.findFileByPath(TRIGGER_FILE_PATH);
+        LocalFileSystem fileSystem = LocalFileSystem.getInstance();
+        VirtualFile triggerFile = fileSystem.findFileByPath(triggerFilePath);
         if (triggerFile != null) {
             WriteCommandAction.runWriteCommandAction(project, () -> {
                 try {
@@ -147,42 +149,49 @@ public class ConfigBulkFileListener extends BulkFileListener.Adapter {
 
     private void copySourceToTargetDeployFolder(Set<String> sourceAbsPaths, Set<String> sourceCopPaths) {
         LocalFileSystem fileSystem = LocalFileSystem.getInstance();
-        sourceAbsPaths.forEach(sourcePath -> {
-            String targetPath = Paths.get(absTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
-            VirtualFile source = fileSystem.findFileByPath(sourcePath);
-            VirtualFile target = fileSystem.findFileByPath(targetPath);
-            if (source != null && target != null) {
-                ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            target.delete(this);
-                            source.copy(this, target.getParent(), target.getName());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        });
 
-        sourceCopPaths.forEach(sourcePath -> {
-            String targetPath = Paths.get(copTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
-            VirtualFile source = fileSystem.findFileByPath(sourcePath);
-            VirtualFile target = fileSystem.findFileByPath(targetPath);
-            if (source != null && target != null) {
-                ApplicationManager.getApplication().runWriteAction(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            target.delete(this);
-                            source.copy(this, target.getParent(), target.getName());
-                        } catch (IOException e) {
-                            e.printStackTrace();
+        String absTargetPath = loadSettings(project).getABSTargetPath();
+        if (!isNullOrEmpty(absTargetPath)) {
+            sourceAbsPaths.forEach(sourcePath -> {
+                String targetPath = Paths.get(absTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
+                VirtualFile source = fileSystem.findFileByPath(sourcePath);
+                VirtualFile target = fileSystem.findFileByPath(targetPath);
+                if (source != null && target != null) {
+                    ApplicationManager.getApplication().runWriteAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                target.delete(this);
+                                source.copy(this, target.getParent(), target.getName());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
+
+        String copTargetPath = loadSettings(project).getCOPTargetPath();
+        if (!isNullOrEmpty(copTargetPath)) {
+            sourceCopPaths.forEach(sourcePath -> {
+                String targetPath = Paths.get(copTargetPath, sourcePath.substring(sourcePath.lastIndexOf("WEB-INF"))).toString();
+                VirtualFile source = fileSystem.findFileByPath(sourcePath);
+                VirtualFile target = fileSystem.findFileByPath(targetPath);
+                if (source != null && target != null) {
+                    ApplicationManager.getApplication().runWriteAction(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                target.delete(this);
+                                source.copy(this, target.getParent(), target.getName());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            });
+        }
     }
 }

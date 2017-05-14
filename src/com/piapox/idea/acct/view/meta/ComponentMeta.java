@@ -277,6 +277,7 @@ public class ComponentMeta {
             .put("relatedObjects", "open")
             .put("reports", "open")
             .put("reports", "executeReport")
+            .put("reports", "setContextItem")
             .put("reportsInfo", "reportCreated")
             .put("reportsInfo", "navigateToReport")
             .put("singleLevelTree", "open")

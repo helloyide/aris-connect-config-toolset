@@ -1,6 +1,7 @@
-package com.piapox.idea.acct.action.autoReload;
+package com.piapox.idea.acct.autoReload;
 
 import com.google.gson.Gson;
+import com.piapox.idea.acct.autoReload.settings.AutoReloadSettings;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -13,35 +14,50 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.Map;
 
-public class ConfigReloader {
+import static com.google.common.base.Strings.isNullOrEmpty;
 
-    private static final String USERNAME = "system";
-    private static final String PASSWORD = "manager";
+class ConfigReloader {
+
+    private final AutoReloadSettings settings;
 
     public interface ConfigReloadedListener {
         void onSuccess();
         void onFailed();
     }
 
-    public static void reloadCopConfig(ConfigReloadedListener listener) {
-        reloadConfig("http://pcy1229003.eur.ad.sag/copernicus/default/service/reconfigure", listener);
+    ConfigReloader(AutoReloadSettings settings) {
+        this.settings = settings;
     }
 
-
-    public static void reloadAbsConfig(ConfigReloadedListener listener) {
-        reloadConfig("http://pcy1229003.eur.ad.sag/abs/copernicus/default/service/reconfigure", listener);
+    void reloadCopConfig(ConfigReloadedListener listener) {
+        String urlCOPReload = settings.getUrlCOPReload();
+        if (!isNullOrEmpty(urlCOPReload)) {
+            reloadConfig(urlCOPReload, listener);
+        }
     }
 
-    private static void reloadConfig(String uri, ConfigReloadedListener listener) {
+    void reloadAbsConfig(ConfigReloadedListener listener) {
+        String urlABSReload = settings.getUrlABSReload();
+        if (!isNullOrEmpty(urlABSReload)) {
+            reloadConfig(urlABSReload, listener);
+        }
+    }
+
+    private void reloadConfig(String uri, ConfigReloadedListener listener) {
+        String username = settings.getUsername();
+        String password = settings.getPassword();
+        String urlLogin = settings.getUrlLogin();
+        if (isNullOrEmpty(username) || isNullOrEmpty(password) || isNullOrEmpty(urlLogin)) return;
+
         BasicCookieStore cookieStore = new BasicCookieStore();
         CloseableHttpClient httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
 
         try {
             HttpUriRequest loginRequest = RequestBuilder.post()
-                    .setUri("http://pcy1229003.eur.ad.sag/copernicus/default/service/login")
+                    .setUri(urlLogin)
                     .addParameter("schema", "0")
-                    .addParameter("alias", USERNAME)
-                    .addParameter("password", PASSWORD)
+                    .addParameter("alias", username)
+                    .addParameter("password", password)
                     .build();
 
             try (CloseableHttpResponse loginResponse = httpClient.execute(loginRequest)) {
