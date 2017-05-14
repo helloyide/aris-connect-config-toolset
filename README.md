@@ -38,8 +38,11 @@ You can activate auto reload config by clicking on this toolbar button:
 ![Auto reload config toolbar button](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/auto_reload_toolbar_button.png)
 
 At first you need to configure its settings:
+
 ![Auto reload config settings menu](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/auto_reload_settings_menu.png)
+
 ![Auto reload config settings](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/auto_reload_settings.png)
+
 If you are not running ARIS from code line which is only for internal developers, you can ignore the second part "File System" of the settings.
 I suggest you also install LiveReload browser plugin (http://livereload.com/), it will watch file changes on file system and reload the browser automatically. You can set up a file in the last part of the settings above and let liveload watch on that file, each time after configruation reloaded, it will change that file and trigger LiveReload.
 
