@@ -32,7 +32,7 @@ Feature Details
 -------------
 Follow features are already implemented:
 ### Auto reload config
-After you change the XML configuration, in order to see the result, you need to deploy it to server either by copy the files manually or zip them and upload through UI, after that you need to reload the configuration and refresh the page. The whole process takes alot of time if you change configuration often. With the Auto reload config feature this tool can watch your changes, deploy them on server and reload the configurations on the fly, it's much faster.
+After you change the XML configuration, in order to see the result, you need to deploy it to server either by copy the files manually or zip them and upload through UI, after that you need to reload the configuration and refresh the page. The whole process takes a lot of time if you change configuration often. With the Auto reload config feature this tool can watch your changes, deploy them to server and reload the configurations on the fly, it's much faster.
 
 You can activate auto reload config by clicking on this toolbar button:
 ![Auto reload config toolbar button](https://raw.githubusercontent.com/helloyide/aris-connect-config-toolset/master/gifs/auto_reload_toolbar_button.png)
