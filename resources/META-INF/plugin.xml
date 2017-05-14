@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.piapox.idea.acct</id>
     <name>ARIS Connect Config ToolSet</name>
-    <version>0.1</version>
+    <version>0.2</version>
     <vendor email="Yide.Zou@softwareag.com" url="">Yide Zou</vendor>
 
     <description><![CDATA[
@@ -9,6 +9,14 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h3>0.2</h3>
+        <ul>
+            <li>automatically watch configuration changes and reload it</li>
+            <li>fix NPE when open view configuration from test folder</li>
+            <li>the plugin now supports IDEA 2016.2 as well</li>
+        </ul>
+
+
         <h3>0.1</h3>
         <ul>
             <li>open instance configuration. Warn if using default instance config, create new instance config which is copied from the default one.</li>
