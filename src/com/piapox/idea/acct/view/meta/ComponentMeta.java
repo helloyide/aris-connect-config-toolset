@@ -284,7 +284,6 @@ public class ComponentMeta {
             .put("sscLandingPage", "reinit")
             .put("itemCollection", "gallery")
             .put("matrixModel", "open")
-            .put("matrixModel", "activated")
             .put("matrixModel", "select")
             .put("glossary", "userSelected")
             .put("glossary", "userSelectAborted")
