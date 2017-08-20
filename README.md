@@ -8,7 +8,7 @@ Features
 - Build-in documentation, choose instead of typing
 - Connect related items, navigation instead of text search
 - Smart refactor
-- (not yet done) Auto deploy and reload the configurations
+- Auto deploy and reload the configurations
 
 Demo
 -------------
